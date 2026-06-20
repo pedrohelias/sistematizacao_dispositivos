@@ -3,8 +3,23 @@ import { Color } from "expo-router";
 import { View, Text, StyleSheet, ImageBackground, Image, TextInput, Pressable} from "react-native";
 import {Link} from "expo-router";
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { useState } from "react";
 
 export default function Login(){
+
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [loading, setLoading] = useState("");
+
+    function handleSignIn(){
+        console.log({
+            email, 
+            password,
+        })
+
+    }
+
+
     return(
 
         <ImageBackground 
@@ -25,11 +40,11 @@ export default function Login(){
                 <Text style={styles.formCardTitle}> Acessar o Sistema</Text>
 
                 <View style={styles.formEmail}>
-                    <TextInput placeholder="Digite seu e-mail" style={styles.input}></TextInput>
+                    <TextInput placeholder="Digite seu e-mail" style={styles.input} value={email} onChangeText={setEmail}></TextInput>
                 </View>
 
                 <View style={styles.formPassword}>
-                    <TextInput placeholder="Digite sua senha" style={styles.input} secureTextEntry></TextInput>
+                    <TextInput placeholder="Digite sua senha" style={styles.input} secureTextEntry value={password} onChangeText={setPassword}></TextInput>
                     
                 </View>
 
@@ -38,8 +53,8 @@ export default function Login(){
                 </View>
 
                 <View style={styles.formButton}>
-                    <Pressable style={styles.pressable}>
-                        <Text style={styles.buttonStyle}>Entrar</Text>
+                    <Pressable style={styles.pressable} onPress={handleSignIn} android_ripple={{ color: 'rgba(255, 255, 255, 0.3)' }}>
+                        <Text style={styles.buttonStyle} >Entrar</Text>
                     </Pressable>
                 </View>
 
@@ -48,8 +63,8 @@ export default function Login(){
                 </View>
 
                 <View style={styles.formButton}>
-                    <Pressable style={styles.pressable}>
-                        <Text style={styles.buttonStyleGoogle}>Entrar com Google</Text>
+                    <Pressable style={styles.pressable} android_ripple={{ color: 'rgba(255, 255, 255, 0.3)' }}>
+                        <Text style={styles.buttonStyleGoogle} >Entrar com Google</Text>
                     </Pressable>
                 </View>
 
