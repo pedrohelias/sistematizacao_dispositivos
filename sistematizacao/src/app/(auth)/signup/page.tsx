@@ -95,7 +95,8 @@ async function handleSignUp(){
 
                             <View style={styles.formButton}>
                                 <Pressable style={styles.pressable} onPress={handleSignUp} android_ripple={{ color: 'rgba(255, 255, 255, 0.3)' }}>
-                                    <Text style={styles.buttonStyleGoogle}>Cadastrar</Text>
+                                    <Text style={styles.buttonStyleGoogle}>{
+                                        loading? "Carregando...": "Cadastrar"}</Text>
                                 </Pressable>
                             </View>
 
