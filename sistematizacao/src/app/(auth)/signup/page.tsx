@@ -5,6 +5,7 @@ import {router} from "expo-router";
 import {Ionicons} from "@expo/vector-icons"
 import { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
+import {supabase} from "../../../lib/supabase"
 
 function pageReturn(){ //funcao de retorno a tela anterior
     router.back()
@@ -17,16 +18,31 @@ export default function Signup(){
     const [cpf, setCPF] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [loading, setLoading] = useState("");
+    const [loading, setLoading] = useState(false);
 
 
-function handleSignUp(){
-    console.log({
-        name,
-        cpf,
-        email,
-        password 
+async function handleSignUp(){
+    setLoading(true);
+    const {data, error} = await supabase.auth.signUp({
+        email: email,
+        password: password,
+        options: {
+            data: {
+                name: name,
+                cpf: cpf 
+            }
+        }
     })
+
+    if(error){
+        Alert.alert("Error", error.message)
+        setLoading(false);
+        return;
+    }
+
+    setLoading(false);
+    router.replace('/')
+
 
 }
 
@@ -85,7 +101,7 @@ function handleSignUp(){
 
                         </View>
                     </View>
-                </ScrollView>
+                </ScrollView> 
                 </KeyboardAvoidingView>
             </SafeAreaView>
 
