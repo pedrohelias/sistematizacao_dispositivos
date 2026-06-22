@@ -41,13 +41,18 @@ function MainLayout(){
           options={{headerShown: false}}>
       </Stack.Screen>
 
-       <Stack.Screen
+      <Stack.Screen
           name="(auth)/signup/page"
           options={{headerShown: false}}>
       </Stack.Screen>
 
-       <Stack.Screen
+      <Stack.Screen
           name="(panel)/profile/page"
+          options={{headerShown: false}}>
+      </Stack.Screen>
+
+      <Stack.Screen
+          name="(panel)/collection/page"
           options={{headerShown: false}}>
       </Stack.Screen>
 

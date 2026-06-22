@@ -4,7 +4,7 @@ import { router } from "expo-router";
 import { View, Text, StyleSheet, Button, Alert, ImageBackground, KeyboardAvoidingView, Platform, ScrollView } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-export default function Profile(){
+export default function Collection(){
 
     const {setAuth} = useAuth()
 
@@ -19,10 +19,10 @@ export default function Profile(){
         }
     }
 
-    async function handleNexPage(){
-           
-            router.replace("/(panel)/collection/page")
-    
+     async function handleNexPage(){
+               
+        router.replace("/(panel)/profile/page")
+        
     }
 
 
@@ -35,9 +35,9 @@ export default function Profile(){
                     <ScrollView style={{flex:1}} contentContainerStyle={{ flexGrow: 1 }} keyboardShouldPersistTaps="handled">
 
                         <View style={styles.container}>
-                            <Text>Página Perfil</Text>
+                            <Text>Página Coleção</Text>
                             <Button title= "deslogar" onPress={handleSignOut}></Button>
-                            <Button title="acessar colection" onPress={handleNexPage}></Button>
+                            <Button title= "ir pra pagina coleção" onPress={handleNexPage}></Button>
                         </View>
                     </ScrollView>
                 </KeyboardAvoidingView>
