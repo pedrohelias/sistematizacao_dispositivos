@@ -8,7 +8,8 @@ export default{
   brown_text: "#593417",
   white_card: "#F5EFEB",
   blue_botton: "#112852",
-  signup_text: "#9c7445"
+  signup_text: "#9c7445",
+  tab_color_primary: "#E8D8A8"
 
 
 

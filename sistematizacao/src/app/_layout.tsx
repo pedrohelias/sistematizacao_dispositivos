@@ -47,14 +47,11 @@ function MainLayout(){
       </Stack.Screen>
 
       <Stack.Screen
-          name="(panel)/profile/page"
-          options={{headerShown: false}}>
+          name="(panel)"
+          options={{headerShown:false}}>
       </Stack.Screen>
 
-      <Stack.Screen
-          name="(panel)/collection/page"
-          options={{headerShown: false}}>
-      </Stack.Screen>
+
 
     </Stack>
   
