@@ -1,21 +1,34 @@
 import Colors from "@/constants/Colors";
 import { Color } from "expo-router";
-import { View, Text, StyleSheet, ImageBackground, Image, TextInput, Pressable} from "react-native";
+import { View, Text, StyleSheet, ImageBackground, Image, TextInput, Pressable, Alert} from "react-native";
 import {Link} from "expo-router";
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useState } from "react";
+import { supabase } from "../lib/supabase";
+import {router} from "expo-router"
 
 export default function Login(){
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [loading, setLoading] = useState("");
+    const [loading, setLoading] = useState(false);
 
-    function handleSignIn(){
-        console.log({
-            email, 
-            password,
+    async function handleSignIn(){
+        setLoading(true)
+        
+        const {data, error} = await supabase.auth.signInWithPassword({
+            email: email,
+            password: password,
         })
+
+        if(error){
+            Alert.alert("Error", error.message)
+            setLoading(false);
+            return;
+        }
+
+        setLoading(false)
+        router.replace("/(panel)/profile/page")
 
     }
 
@@ -54,7 +67,7 @@ export default function Login(){
 
                 <View style={styles.formButton}>
                     <Pressable style={styles.pressable} onPress={handleSignIn} android_ripple={{ color: 'rgba(255, 255, 255, 0.3)' }}>
-                        <Text style={styles.buttonStyle} >Entrar</Text>
+                        <Text style={styles.buttonStyle} >{loading? "Carregando...": "Acessar"}</Text>
                     </Pressable>
                 </View>
 
@@ -87,6 +100,7 @@ const styles = StyleSheet.create({
 
 background:{
     flex:1,
+    
 },
 
 
