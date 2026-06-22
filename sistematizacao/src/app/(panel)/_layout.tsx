@@ -20,6 +20,20 @@ export default function PanelLayout(){
         }}
         >
 
+             <Tabs.Screen
+            name="root/page"
+            options={{
+                title:"INÍCIO",
+
+                tabBarIcon:({color})=>(
+                    <Ionicons
+                        name="compass-outline"
+                        size={24}
+                        color={color}
+                    />
+                )
+            }}
+            />
 
 
             <Tabs.Screen
@@ -54,13 +68,28 @@ export default function PanelLayout(){
             />
 
             <Tabs.Screen
+            name="trade/page"
+            options={{
+                title:"BAZAR",
+
+                tabBarIcon:({color})=>(
+                    <Ionicons
+                        name="storefront-outline"
+                        size={24}
+                        color={color}
+                    />
+                )
+            }}
+            />
+
+            <Tabs.Screen
             name="profile/page"
             options={{
                 title:"PERFIL",
 
                 tabBarIcon:({color})=>(
                     <Ionicons
-                        name="person"
+                        name="person-outline"
                         size={24}
                         color={color}
                       />
