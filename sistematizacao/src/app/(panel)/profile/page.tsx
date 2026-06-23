@@ -1,7 +1,9 @@
+import Colors from "@/constants/Colors";
 import { useAuth } from "@/src/contexts/AuthContext";
 import { supabase } from "@/src/lib/supabase";
+import { Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
-import { View, Text, StyleSheet, Button, Alert, ImageBackground, KeyboardAvoidingView, Platform, ScrollView } from "react-native";
+import { View, Text, StyleSheet, Button, Alert, ImageBackground, KeyboardAvoidingView, Platform, ScrollView, TextInput, Pressable } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function Profile(){
@@ -35,9 +37,57 @@ export default function Profile(){
                     <ScrollView style={{flex:1}} contentContainerStyle={{ flexGrow: 1 }} keyboardShouldPersistTaps="handled">
 
                         <View style={styles.container}>
-                            <Text>Página Perfil</Text>
+                            <View style={styles.upperText}>
+                                <Text style={styles.perfilText}>PERFIL</Text>
+                            </View>
+
+                            <View style={styles.lineComponent}>
+                                <Text style={styles.textSubtitle}>DADOS</Text>
+                            </View>
+
+
+                            <View style={styles.upperTextArea}>
+                                <Text style={styles.nameText}>NOME</Text>
+                            </View>
+
+                            <View style={styles.textInputArea}>
+
+                                <View style={styles.inputContainer}>
+                                    <Ionicons name="person" size={24} color={Colors.black}/>
+                                    <TextInput style={styles.textInputDesign} placeholder="Digite seu nome..."/>
+
+                                    <Pressable style={styles.bottonDesign}>
+                                        <Ionicons name="create" size={24} color={Colors.black} />
+                                    </Pressable>
+
+                                </View>
+
+                            </View>
+
+                            <View style={styles.upperTextArea}>
+                                <Text style={styles.nameText}>E-MAIL</Text>
+                            </View>
+
+                            <View style={styles.textInputArea}>
+                                <TextInput style={styles.textInputDesign} placeholder="Digite seu email..."></TextInput>
+
+                            </View>
+
+                            <View style={styles.upperTextArea}>
+                                <Text style={styles.nameText}>CPF</Text>
+                            </View>
+
+                            <View style={styles.textInputArea}>
+                                <TextInput style={styles.textInputDesign} placeholder="Digite seu email..."></TextInput>
+
+                            </View>
+
+                            <View style={styles.collections}>
+                                <Text style={styles.textSubtitle}>COLEÇÕES ASSOCIADAS</Text>
+                            </View>
+
+
                             <Button title= "deslogar" onPress={handleSignOut}></Button>
-                            <Button title="acessar colection" onPress={handleNexPage}></Button>
                         </View>
                     </ScrollView>
                 </KeyboardAvoidingView>
@@ -53,13 +103,121 @@ const styles = StyleSheet.create({
     container: {
         flex:1,
         justifyContent: "center",
-        alignItems: "center"
+        alignItems: "center",
+        
     },
 
     background: {
         flex: 1,
 
-    }
+    },
     
+    upperText: {
+        marginTop: -10,
+        paddingTop: 5,
+        paddingBottom: 10,
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "center",
+        paddingVertical: 20,
+        position: "relative",
+    },
+
+    perfilText:{
+        fontSize: 24,
+        fontWeight: "700",
+        color: Colors.brown_text
+
+
+    },
+
+    subtitle: {
+        
+    },
+
+    textSubtitle: {
+        fontSize: 14,
+        fontWeight: "700",
+        color: Colors.brown_text,
+        
+    },
+
+    lineComponent: {
+        borderBottomColor: '#593417', 
+        borderBottomWidth: 3,         
+        opacity: 0.7,                 
+        marginVertical: 15,           
+        width: "90%",
+
+    },
+
+    upperTextArea: {
+        width: "100%",
+        alignItems: "flex-start",
+        marginLeft: 40,
+
+
+    },
+
+    bottonDesign:{
+        paddingRight: 10 ,
+    },
+
+
+    textInputArea: {
+        width: "100%",
+        alignItems: "center",
+        marginBottom: 30,
+    },
+
+    inputContainer: {
+        width: "90%",
+        height: 45,
+        flexDirection: "row",
+        alignItems: "center",
+        backgroundColor: Colors.white_card,
+        borderWidth: 1,
+        borderRadius: 4,
+        borderColor: Colors.white,
+        paddingHorizontal: 12,
+    },
+
+   
+
+    nameText: {
+        alignItems: "flex-start",
+        fontSize: 14,
+        fontWeight: "700",
+        marginBottom: 5,
+
+    },
+
+     textInputDesign: {
+        width: "89%",
+        borderWidth: 1,
+        borderRadius: 4,
+        backgroundColor: Colors.white_card,
+        borderColor: Colors.white_card,
+        
+    },
+
+    emailArea: {
+
+    },
+
+    cpfArea: {
+
+    },
+
+    collections: {
+      borderBottomColor: '#593417', // Cor marrom combinando com o mapa antigo
+      borderBottomWidth: 3,         // Espessura de 1 pixel
+      opacity: 0.7,                 // Deixa ela suave/semi-transparente
+      marginVertical: 15,           // Espaçamento,
+      width: "90%",
+      marginTop: 50,
+
+    },
 });
+
 
