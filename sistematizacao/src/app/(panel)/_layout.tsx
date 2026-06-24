@@ -15,8 +15,8 @@ export default function PanelLayout(){
                 height:100,
             },
 
-            tabBarActiveTintColor:"#6B4B16",
-            tabBarInactiveTintColor:"#5A3A10",
+            tabBarActiveTintColor:"#000000",
+            tabBarInactiveTintColor:Colors.brown_text,
         }}
         >
 
@@ -27,7 +27,7 @@ export default function PanelLayout(){
 
                 tabBarIcon:({color})=>(
                     <Ionicons
-                        name="compass-outline"
+                        name="compass"
                         size={24}
                         color={color}
                     />
@@ -43,7 +43,7 @@ export default function PanelLayout(){
 
                 tabBarIcon:({color})=>(
                     <Ionicons
-                        name="albums-outline"
+                        name="albums"
                         size={24}
                         color={color}
                     />
@@ -59,7 +59,7 @@ export default function PanelLayout(){
 
                 tabBarIcon:({color})=>(
                     <Ionicons
-                        name="cart-outline"
+                        name="cart"
                         size={24}
                         color={color}
                     />
@@ -74,7 +74,7 @@ export default function PanelLayout(){
 
                 tabBarIcon:({color})=>(
                     <Ionicons
-                        name="storefront-outline"
+                        name="storefront"
                         size={24}
                         color={color}
                     />
@@ -89,7 +89,7 @@ export default function PanelLayout(){
 
                 tabBarIcon:({color})=>(
                     <Ionicons
-                        name="person-outline"
+                        name="person"
                         size={24}
                         color={color}
                       />

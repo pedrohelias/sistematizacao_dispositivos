@@ -3,6 +3,7 @@ import { useAuth } from "@/src/contexts/AuthContext";
 import { supabase } from "@/src/lib/supabase";
 import { Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
+import { Background } from "expo-router/build/react-navigation";
 import { View, Text, StyleSheet, Button, Alert, ImageBackground, KeyboardAvoidingView, Platform, ScrollView, TextInput, Pressable } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -53,7 +54,7 @@ export default function Profile(){
                             <View style={styles.textInputArea}>
 
                                 <View style={styles.inputContainer}>
-                                    <Ionicons name="person" size={24} color={Colors.black}/>
+                                    <Ionicons style={styles.icon}name="person" size={24} color={Colors.black}/>
                                     <TextInput style={styles.textInputDesign} placeholder="Digite seu nome..."/>
 
                                     <Pressable style={styles.bottonDesign}>
@@ -69,16 +70,35 @@ export default function Profile(){
                             </View>
 
                             <View style={styles.textInputArea}>
-                                <TextInput style={styles.textInputDesign} placeholder="Digite seu email..."></TextInput>
+
+                                <View style={styles.inputContainer}>
+                                    <Ionicons name="mail" size={24} color={Colors.black}/>
+                                    <TextInput style={styles.textInputDesign} placeholder="Digite seu email..."/>
+
+                                    <Pressable style={styles.bottonDesign}>
+                                        <Ionicons name="create" size={24} color={Colors.black} />
+                                    </Pressable>
+
+                                </View>
 
                             </View>
+
 
                             <View style={styles.upperTextArea}>
                                 <Text style={styles.nameText}>CPF</Text>
                             </View>
 
                             <View style={styles.textInputArea}>
-                                <TextInput style={styles.textInputDesign} placeholder="Digite seu email..."></TextInput>
+
+                                <View style={styles.inputContainer}>
+                                    <Ionicons name="document" size={24} color={Colors.black}/>
+                                    <TextInput style={styles.textInputDesign} placeholder="Digite seu CPF..."/>
+
+                                    <Pressable style={styles.bottonDesign}>
+                                        <Ionicons name="create" size={24} color={Colors.black} />
+                                    </Pressable>
+
+                                </View>
 
                             </View>
 
@@ -110,6 +130,10 @@ const styles = StyleSheet.create({
     background: {
         flex: 1,
 
+    },
+
+    icon: {
+        color: "#33333"
     },
     
     upperText: {
