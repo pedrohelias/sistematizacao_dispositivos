@@ -3,14 +3,44 @@ import { useAuth } from "@/src/contexts/AuthContext";
 import { supabase } from "@/src/lib/supabase";
 import { Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
+
 import { Background } from "expo-router/build/react-navigation";
+import { use, useEffect, useState } from "react";
 import { View, Text, StyleSheet, Button, Alert, ImageBackground, KeyboardAvoidingView, Platform, ScrollView, TextInput, Pressable } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function Profile(){
 
-    const {setAuth} = useAuth()
+    const {setAuth, user} = useAuth()
 
+    const [name, setName] = useState("");
+    const [email, setEmail] = useState("");
+    const [cpf,setCPF] = useState("");
+
+
+    //tudo que vai renderizar quando abrir a tela vai ficar no useEffect, lembrar disso em futuros estudos
+
+    useEffect(()=>{
+        async function loadData() {
+            try {
+                if(!user?.id) return;
+
+                    const {data, error} = await supabase.from("users").select("name, cpf").eq("id",user.id).single();
+
+                    if (error) throw error;
+
+                    setName(data?.name || "");
+                    setCPF(data?.cpf || "");
+                    setEmail(user?.email || "" );
+
+
+                }catch (error:any) {
+                    Alert.alert("Erro", "naõ foi possível obter os dados");
+                    console.error(error.message);
+
+                }
+            } loadData();
+        }, [user]);
 
     async function handleSignOut() {
         const {error} = await supabase.auth.signOut()
@@ -27,6 +57,7 @@ export default function Profile(){
             router.replace("/(panel)/collection/page")
     
     }
+
 
 
     return(
@@ -55,7 +86,7 @@ export default function Profile(){
 
                                 <View style={styles.inputContainer}>
                                     <Ionicons style={styles.icon}name="person" size={24} color={Colors.black}/>
-                                    <TextInput style={styles.textInputDesign} placeholder="Digite seu nome..."/>
+                                    <TextInput style={styles.textInputDesign} value={name} onChangeText={setName} />
 
                                     <Pressable style={styles.bottonDesign}>
                                         <Ionicons name="create" size={24} color={Colors.black} />
@@ -73,7 +104,7 @@ export default function Profile(){
 
                                 <View style={styles.inputContainer}>
                                     <Ionicons name="mail" size={24} color={Colors.black}/>
-                                    <TextInput style={styles.textInputDesign} placeholder="Digite seu email..."/>
+                                    <TextInput style={styles.textInputDesign} value={email} onChangeText={setEmail}/>
 
                                     <Pressable style={styles.bottonDesign}>
                                         <Ionicons name="create" size={24} color={Colors.black} />
@@ -92,7 +123,7 @@ export default function Profile(){
 
                                 <View style={styles.inputContainer}>
                                     <Ionicons name="document" size={24} color={Colors.black}/>
-                                    <TextInput style={styles.textInputDesign} placeholder="Digite seu CPF..."/>
+                                    <TextInput style={styles.textInputDesign} value={cpf} onChangeText={setCPF} />
 
                                     <Pressable style={styles.bottonDesign}>
                                         <Ionicons name="create" size={24} color={Colors.black} />
