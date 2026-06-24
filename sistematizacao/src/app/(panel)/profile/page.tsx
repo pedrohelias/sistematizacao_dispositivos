@@ -5,7 +5,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
 
 import { Background } from "expo-router/build/react-navigation";
-import { use, useEffect, useState } from "react";
+import { useRef, useEffect, useState } from "react";
 import { View, Text, StyleSheet, Button, Alert, ImageBackground, KeyboardAvoidingView, Platform, ScrollView, TextInput, Pressable } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -16,14 +16,21 @@ export default function Profile(){
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [cpf,setCPF] = useState("");
+    const [editName, setEditName] = useState(false);
+    const [editCPF, setEditCPF] = useState(false);
+    const nameInputRef = useRef<TextInput>(null);
+    const cpfInputRef = useRef<TextInput>(null);
 
 
-    //tudo que vai renderizar quando abrir a tela vai ficar no useEffect, lembrar disso em futuros estudos
+
+    //tudo que vai renderizar quando abrir a tela vai ficar no useEffect, preciso lembrar disso em futuros estudos. Mas ainda não funciona se só trocar de tela pelo menu
 
     useEffect(()=>{
         async function loadData() {
             try {
-                if(!user?.id) return;
+                if(!user?.id) 
+                    //Alert.alert("Erro", "deu problema")
+                    return;
 
                     const {data, error} = await supabase.from("users").select("name, cpf").eq("id",user.id).single();
 
@@ -42,6 +49,32 @@ export default function Profile(){
             } loadData();
         }, [user]);
 
+
+    //salvar a altearação no supabase
+
+    async function handleSaveDatabase(campo: "name" | "cpf", valor: string, setEdit: (val:boolean) => void ){
+
+        if (!user) {
+            Alert.alert("Erro", "Usuário não encontrado");
+            return;
+        }
+
+        try{
+            const {error} = await supabase.from("users").update({[campo]: valor}).eq("id", user.id);
+
+            if (error) throw error;
+
+            Alert.alert("Sucesso", "Perfil atualizado com os dados");
+            setEdit(false);
+
+
+        }catch (error: any){
+            Alert.alert("Erro", "não foi possíve alterar")
+            console.error(error.message);
+        }
+    }
+
+
     async function handleSignOut() {
         const {error} = await supabase.auth.signOut()
         setAuth(null)
@@ -58,6 +91,29 @@ export default function Profile(){
     
     }
 
+
+    async function handleEditName(){
+        if(editName){
+            handleSaveDatabase("name", name, setEditName);
+        }else{
+            setEditName(true);
+            setTimeout(()=>{
+                nameInputRef.current?.focus();
+            }, 100);
+        }
+
+    }
+
+    async function handleEditCPF(){
+        if(editCPF){
+            handleSaveDatabase("cpf", cpf, setEditCPF);
+        }else{
+            setEditCPF(true);
+            setTimeout(()=>{
+                cpfInputRef.current?.focus();
+            }, 100);
+        }
+    }
 
 
     return(
@@ -79,24 +135,6 @@ export default function Profile(){
 
 
                             <View style={styles.upperTextArea}>
-                                <Text style={styles.nameText}>NOME</Text>
-                            </View>
-
-                            <View style={styles.textInputArea}>
-
-                                <View style={styles.inputContainer}>
-                                    <Ionicons style={styles.icon}name="person" size={24} color={Colors.black}/>
-                                    <TextInput style={styles.textInputDesign} value={name} onChangeText={setName} />
-
-                                    <Pressable style={styles.bottonDesign}>
-                                        <Ionicons name="create" size={24} color={Colors.black} />
-                                    </Pressable>
-
-                                </View>
-
-                            </View>
-
-                            <View style={styles.upperTextArea}>
                                 <Text style={styles.nameText}>E-MAIL</Text>
                             </View>
 
@@ -104,15 +142,35 @@ export default function Profile(){
 
                                 <View style={styles.inputContainer}>
                                     <Ionicons name="mail" size={24} color={Colors.black}/>
-                                    <TextInput style={styles.textInputDesign} value={email} onChangeText={setEmail}/>
+                                    <TextInput style={styles.textInputDesign} value={email} onChangeText={setEmail} editable={false}/>
 
-                                    <Pressable style={styles.bottonDesign}>
-                                        <Ionicons name="create" size={24} color={Colors.black} />
+                                   
+
+                                </View>
+
+                            </View>
+
+
+                            <View style={styles.upperTextArea}>
+                                <Text style={styles.nameText}>NOME</Text>
+                            </View>
+
+                            <View style={styles.textInputArea}>
+
+                                <View style={styles.inputContainer}>
+                                    <Ionicons style={styles.icon}name="person" size={24} color={Colors.black}/>
+                                    <TextInput style={styles.textInputDesign} value={name} onChangeText={setName} editable={editName} ref={nameInputRef}  />
+
+                                    <Pressable style={styles.bottonDesign} onPress={handleEditName}>
+                                        <Ionicons name={editName ? "checkmark-outline" : "create"} size={24} color={editName ? "green" : "#593417"} />
+                                        
                                     </Pressable>
 
                                 </View>
 
                             </View>
+
+        
 
 
                             <View style={styles.upperTextArea}>
@@ -123,10 +181,11 @@ export default function Profile(){
 
                                 <View style={styles.inputContainer}>
                                     <Ionicons name="document" size={24} color={Colors.black}/>
-                                    <TextInput style={styles.textInputDesign} value={cpf} onChangeText={setCPF} />
+                                    <TextInput style={styles.textInputDesign} value={cpf} onChangeText={setCPF} editable={editCPF} keyboardType="numeric" ref={nameInputRef}/>
 
-                                    <Pressable style={styles.bottonDesign}>
-                                        <Ionicons name="create" size={24} color={Colors.black} />
+                                    <Pressable style={styles.bottonDesign} onPress={handleEditCPF}>
+                                        <Ionicons name={editCPF ? "checkmark-outline" : "create"} size={24} color={editCPF ? "green" : "#593417"} />
+
                                     </Pressable>
 
                                 </View>
@@ -138,7 +197,11 @@ export default function Profile(){
                             </View>
 
 
-                            <Button title= "deslogar" onPress={handleSignOut}></Button>
+
+                            <Pressable style={styles.logoff} onPress={handleSignOut}>
+                                <Text style={styles.logoffText}>DESLOGAR</Text>
+                            </Pressable>
+
                         </View>
                     </ScrollView>
                 </KeyboardAvoidingView>
@@ -265,14 +328,35 @@ const styles = StyleSheet.create({
     },
 
     collections: {
-      borderBottomColor: '#593417', // Cor marrom combinando com o mapa antigo
-      borderBottomWidth: 3,         // Espessura de 1 pixel
-      opacity: 0.7,                 // Deixa ela suave/semi-transparente
-      marginVertical: 15,           // Espaçamento,
-      width: "90%",
-      marginTop: 50,
+        borderBottomColor: '#593417', // Cor marrom combinando com o mapa antigo
+        borderBottomWidth: 3,         // Espessura de 1 pixel
+        opacity: 0.7,                 // Deixa ela suave/semi-transparente
+        marginVertical: 15,           // Espaçamento,
+        width: "90%",
+        marginTop: 50,
 
     },
+
+    logoff: {
+        width:"35%",
+        height:45,
+        
+    
+        backgroundColor:Colors.blue_botton,
+        borderRadius:7,
+    
+        justifyContent:"center",
+        alignItems:"center",
+    
+        marginBottom:15,
+
+    },
+
+    logoffText: {
+        color: Colors.white
+    }
+
+
 });
 
 
