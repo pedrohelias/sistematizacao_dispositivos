@@ -279,6 +279,7 @@ const styles = StyleSheet.create({
 
     bottonDesign:{
         paddingRight: 10 ,
+        
     },
 
 
