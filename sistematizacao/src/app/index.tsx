@@ -1,11 +1,12 @@
 import Colors from "@/constants/Colors";
 import { Color } from "expo-router";
-import { View, Text, StyleSheet, ImageBackground, Image, TextInput, Pressable, Alert} from "react-native";
+import { View, Text, StyleSheet, ImageBackground, Image, TextInput, Pressable, Alert, KeyboardAvoidingView, Platform, ScrollView} from "react-native";
 import {Link} from "expo-router";
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useState } from "react";
 import { supabase } from "../lib/supabase";
 import {router} from "expo-router"
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function Login(){
 
@@ -39,55 +40,59 @@ export default function Login(){
             source={require("../../images/fundoapp.jpeg")} 
             style={styles.background} 
             resizeMode="cover">
-        
-        <View style={styles.container}>
+         <SafeAreaView style={{flex:1}}>
+            <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"}style={{ flex: 1 }}>
+                <ScrollView style={{flex:1}} contentContainerStyle={{ flexGrow: 1 }} keyboardShouldPersistTaps="handled">
+                    <View style={styles.container}>
 
-            <View style={styles.logoContainer}>
-                <Image source={require("../../images/logo.png")} style={styles.logo} ></Image>
-                <Text style={styles.logoText}>CARD MARKET</Text>
-                
+                        <View style={styles.logoContainer}>
+                            <Image source={require("../../images/logo.png")} style={styles.logo} ></Image>
+                            <Text style={styles.logoText}>CARD MARKET</Text>
+                            
 
-            </View>
+                        </View>
 
-            <View style={styles.formCard}>
-                <Text style={styles.formCardTitle}> Acessar o Sistema</Text>
+                        <View style={styles.formCard}>
+                            <Text style={styles.formCardTitle}> Acessar o Sistema</Text>
 
-                <View style={styles.formEmail}>
-                    <TextInput placeholder="Digite seu e-mail" style={styles.input} value={email} onChangeText={setEmail}></TextInput>
-                </View>
+                            <View style={styles.formEmail}>
+                                <TextInput placeholder="Digite seu e-mail" style={styles.input} value={email} onChangeText={setEmail}></TextInput>
+                            </View>
 
-                <View style={styles.formPassword}>
-                    <TextInput placeholder="Digite sua senha" style={styles.input} secureTextEntry value={password} onChangeText={setPassword}></TextInput>
-                    
-                </View>
+                            <View style={styles.formPassword}>
+                                <TextInput placeholder="Digite sua senha" style={styles.input} secureTextEntry value={password} onChangeText={setPassword}></TextInput>
+                                
+                            </View>
 
-                <View style={styles.textForget}>
-                    <Text style={styles.textForgetStyle}>esqueceu sua senha?</Text>
-                </View>
+                            <View style={styles.textForget}>
+                                <Text style={styles.textForgetStyle}>esqueceu sua senha?</Text>
+                            </View>
 
-                <View style={styles.formButton}>
-                    <Pressable style={styles.pressable} onPress={handleSignIn} android_ripple={{ color: 'rgba(255, 255, 255, 0.3)' }}>
-                        <Text style={styles.buttonStyle} >{loading? "Carregando...": "Acessar"}</Text>
-                    </Pressable>
-                </View>
+                            <View style={styles.formButton}>
+                                <Pressable style={styles.pressable} onPress={handleSignIn} android_ripple={{ color: 'rgba(255, 255, 255, 0.3)' }}>
+                                    <Text style={styles.buttonStyle} >{loading? "Carregando...": "Acessar"}</Text>
+                                </Pressable>
+                            </View>
 
-                <View style={styles.orStyle}>
-                    <Text>ou</Text>
-                </View>
+                            <View style={styles.orStyle}>
+                                <Text>ou</Text>
+                            </View>
 
-                <View style={styles.formButton}>
-                    <Pressable style={styles.pressable} android_ripple={{ color: 'rgba(255, 255, 255, 0.3)' }}>
-                        <Text style={styles.buttonStyleGoogle} >Entrar com Google</Text>
-                    </Pressable>
-                </View>
+                            <View style={styles.formButton}>
+                                <Pressable style={styles.pressable} android_ripple={{ color: 'rgba(255, 255, 255, 0.3)' }}>
+                                    <Text style={styles.buttonStyleGoogle} >Entrar com Google</Text>
+                                </Pressable>
+                            </View>
 
-                <View style = {styles.lastTextStyle}>
-                    <Text>Ainda não tem sua conta?<Link href={"/(auth)/signup/page"}><Text style={styles.lastPressable}> Cadastre-se</Text></Link></Text>
-                </View>
+                            <View style = {styles.lastTextStyle}>
+                                <Text>Ainda não tem sua conta?<Link href={"/(auth)/signup/page"}><Text style={styles.lastPressable}> Cadastre-se</Text></Link></Text>
+                            </View>
 
-            </View>
-        </View>
-        
+                        </View>
+                    </View>
+                </ScrollView>
+            </KeyboardAvoidingView>
+        </SafeAreaView>
         </ImageBackground>
         
         

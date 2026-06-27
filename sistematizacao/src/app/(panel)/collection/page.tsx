@@ -110,6 +110,35 @@ export default function Collection(){
         }
     }
 
+    async function handleDeleteCard(id:any, cardName:any) {
+    Alert.alert(
+        "Remover Carta",
+        `Tem certeza que deseja remover "${cardName}" da sua coleção?`,
+        [
+            { text: "Cancelar", style: "cancel" },
+            {
+                text: "Remover",
+                style: "destructive",
+                onPress: async () => {
+                    try {
+                        const { error } = await supabase
+                            .from("user_cards")
+                            .delete()
+                            .eq("id", id);
+
+                        if (error) throw error;
+
+                        // Atualiza a lista na tela tirando a carta deletada
+                        setMyCards(prevCards => prevCards.filter(card => card.id !== id));
+                    } catch (error: any) {
+                        Alert.alert("Erro", "Não foi possível deletar a carta: " + error.message);
+                    }
+                }
+            }
+        ]
+            );
+    }
+
 
     async function handleSignOut() {
         const {error} = await supabase.auth.signOut()
@@ -189,7 +218,7 @@ export default function Collection(){
                                 </View>
                                 
                                 <View style={styles.viewTrash}>
-                                    <Pressable>
+                                    <Pressable onPress={() => handleDeleteCard(item.id, item.cards?.name)}>
                                         <Ionicons name="trash" size={24} color="#F5E6C8"></Ionicons>
                                     </Pressable>
                                 </View>
